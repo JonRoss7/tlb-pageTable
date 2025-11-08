@@ -1,0 +1,17 @@
+#include <fstream>
+#include <random>
+using namespace std;
+
+int main() {
+    ofstream fout("addresses.txt");
+    mt19937 rng(42);
+    uniform_int_distribution<uint32_t> dist(0, 0xFFFFFFFF);
+
+    uniform_int_distribution<uint32_t> hot(0x70000000, 0x700FFFFF);
+
+    for (int i = 0; i < 1000; i++) {
+        uint32_t va = (i < 700) ? hot(rng) : dist(rng);
+        fout << "0x" << hex << va << "\n";
+    }
+    fout.close();
+}
